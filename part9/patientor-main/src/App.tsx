@@ -13,6 +13,8 @@ const App = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
 
   useEffect(() => {
+    void axios.get<void>(`${apiBaseUrl}/ping`);
+
     const fetchPatientList = async () => {
       const patients = await patientService.getAll();
       setPatients(patients);
