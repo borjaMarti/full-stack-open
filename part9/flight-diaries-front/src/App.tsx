@@ -15,7 +15,7 @@ const App = () => {
 
   return (
     <>
-      <AddEntry />
+      <AddEntry entries={entries} setEntries={setEntries} />
       <Entries data={entries} />
     </>
   );
