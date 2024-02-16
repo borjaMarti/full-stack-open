@@ -1,7 +1,15 @@
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { addEntry } from "../diaryService";
+import { isAxiosError } from "axios";
+
+interface ValidationError {
+  message: string;
+  errors: Record<string, string[]>;
+}
 
 const AddEntry = () => {
+  const [error, setError] = useState("");
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -19,13 +27,22 @@ const AddEntry = () => {
       });
       console.log(newEntry);
     } catch (error) {
-      console.error(error);
+      if (isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+        if (typeof error.response?.data === "string") {
+          setError(error.response.data);
+        } else {
+          setError(error.message);
+        }
+      } else {
+        console.error(error);
+      }
     }
   };
 
   return (
     <section>
       <h1>Add New Entry</h1>
+      <p style={{ color: "red", fontWeight: "bold" }}>{error}</p>
       <form onSubmit={handleSubmit}>
         <label htmlFor="date">Date</label>
         <input id="date" name="date" type="date" />
