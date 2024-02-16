@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { DiaryEntry } from "./types";
 import { getAllEntries } from "./diaryService";
 import Entries from "./components/entries";
+import AddEntry from "./components/add-entry";
 
 const App = () => {
   const [entries, setEntries] = useState<DiaryEntry[]>([]);
@@ -14,6 +15,7 @@ const App = () => {
 
   return (
     <>
+      <AddEntry />
       <Entries data={entries} />
     </>
   );
