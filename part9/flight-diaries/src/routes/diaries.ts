@@ -1,15 +1,14 @@
-import express from 'express';
-import diaryService from '../services/diary-service';
-import toNewDiaryEntry from '../utlils';
+import express from "express";
+import diaryService from "../services/diary-service";
+import toNewDiaryEntry from "../utlils";
 
 const router = express.Router();
 
-router.get('/', (_req, res) => {
-  res.send(diaryService.getNonSensitiveEntries());
+router.get("/", (_req, res) => {
+  res.send(diaryService.getEntries());
 });
 
-
-router.get('/:id', (req, res) => {
+router.get("/:id", (req, res) => {
   const diary = diaryService.findById(Number(req.params.id));
 
   if (diary) {
@@ -19,16 +18,16 @@ router.get('/:id', (req, res) => {
   }
 });
 
-router.post('/', (req, res) => {
+router.post("/", (req, res) => {
   try {
     const newDiaryEntry = toNewDiaryEntry(req.body);
 
     const addedEntry = diaryService.addDiary(newDiaryEntry);
     res.json(addedEntry);
   } catch (error: unknown) {
-    let errorMessage = 'Something went wrong.';
+    let errorMessage = "Something went wrong.";
     if (error instanceof Error) {
-      errorMessage += ' Error: ' + error.message;
+      errorMessage += " Error: " + error.message;
     }
     res.status(400).send(errorMessage);
   }
