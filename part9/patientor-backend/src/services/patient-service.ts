@@ -2,7 +2,7 @@ import patients from "../../data/patients";
 import { Patient, NewPatient, NonSensitivePatient } from "../types";
 import { v1 as uuid } from "uuid";
 
-const getNonSensitivePatient = (id: string): Patient => {
+const getPatient = (id: string): Patient => {
   const patient = patients.find((patient) => {
     return patient.id === id;
   });
@@ -35,7 +35,7 @@ const addPatient = (patient: NewPatient): Patient => {
 };
 
 export default {
-  getNonSensitivePatient,
+  getPatient,
   getPatients,
   getNonSensitivePatients,
   addPatient,

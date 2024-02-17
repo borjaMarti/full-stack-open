@@ -25,7 +25,7 @@ router.post("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
   try {
-    const patient = patientService.getNonSensitivePatient(req.params.id);
+    const patient = patientService.getPatient(req.params.id);
     res.send(patient);
   } catch (error: unknown) {
     let errorMessage = "Something went wrong.";
