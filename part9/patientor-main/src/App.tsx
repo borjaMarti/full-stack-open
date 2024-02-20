@@ -2,21 +2,28 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import { Button, Divider, Container, Typography } from "@mui/material";
 
-import { Patient } from "./types";
+import { Patient, Diagnosis } from "./types";
 
 import patientService from "./services/patients";
+import diagnoseService from "./services/diagnoses";
 import PatientListPage from "./components/PatientListPage";
 import PatientPage from "./components/patient-page";
 
 const App = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
+  const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([]);
 
   useEffect(() => {
     const fetchPatientList = async () => {
       const patients = await patientService.getAll();
       setPatients(patients);
     };
+    const fetchDiagnosisList = async () => {
+      const diagnoses = await diagnoseService.getDiagnoses();
+      setDiagnoses(diagnoses);
+    };
     void fetchPatientList();
+    void fetchDiagnosisList();
   }, []);
 
   return (
@@ -45,7 +52,7 @@ const App = () => {
               loader={({ params }) =>
                 patients.find((patient) => patient.id === params.id)
               }
-              element={<PatientPage />}
+              element={<PatientPage diagnoses={diagnoses} />}
             />
           </Routes>
         </Container>

@@ -2,10 +2,14 @@ import GenderedIcon from "./gendered-icon";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Stack } from "@mui/material";
-import { Patient } from "../../types";
+import { Patient, Diagnosis } from "../../types";
 import patientService from "../../services/patients";
 
-const PatientPage = () => {
+interface Props {
+  diagnoses: Diagnosis[];
+}
+
+const PatientPage = ({ diagnoses }: Props) => {
   const { id = "" } = useParams();
   const [patient, setPatient] = useState<Patient>();
   useEffect(() => {
@@ -38,7 +42,13 @@ const PatientPage = () => {
               {entry.diagnosisCodes ? (
                 <ul>
                   {entry.diagnosisCodes.map((code, i) => (
-                    <li key={i}>{code}</li>
+                    <li key={i}>
+                      {code}{" "}
+                      {
+                        diagnoses.find((diagnosis) => diagnosis.code === code)
+                          ?.name
+                      }
+                    </li>
                   ))}
                 </ul>
               ) : (
