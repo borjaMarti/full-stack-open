@@ -26,6 +26,30 @@ const PatientPage = () => {
       <p>{patient.dateOfBirth}</p>
       <p>Occupation: {patient.occupation}</p>
       <p>SSN: {patient.ssn}</p>
+      <h2>Entries</h2>
+
+      {patient.entries[0] ? (
+        <ul>
+          {" "}
+          {patient.entries.map((entry) => (
+            <li key={entry.id}>
+              <span>{entry.date}</span>
+              <p>{entry.description}</p>
+              {entry.diagnosisCodes ? (
+                <ul>
+                  {entry.diagnosisCodes.map((code, i) => (
+                    <li key={i}>{code}</li>
+                  ))}
+                </ul>
+              ) : (
+                ""
+              )}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No entries.</p>
+      )}
     </Stack>
   );
 };
